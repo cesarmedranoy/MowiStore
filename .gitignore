@@ -1,0 +1,23 @@
+node_modules/
+dist/
+build/
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.vscode/
+.idea/
+
+# Python / Django
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+db.sqlite3
+staticfiles/
+media/
+
+# Supabase
+.supabase/

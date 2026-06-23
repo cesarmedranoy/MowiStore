@@ -1,0 +1,152 @@
+@import "tailwindcss";
+
+/* Tailwind v4: enable class-based dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-mowi-yellow: #FACC15;
+  --color-mowi-yellow-strong: #EAB308;
+  --color-mowi-yellow-soft: #FEF3C7;
+  --color-mowi-black: #0A0A0A;
+  --color-mowi-cream: #FFFDF5;
+  --color-mowi-line: #E8E5DA;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-mowi-cream);
+  color: var(--color-mowi-black);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+html.dark body {
+  background-color: #08080A;
+  color: #FAFAFA;
+}
+
+/* ============== Animations (lean — translate-only) ============== */
+
+@keyframes blob-drift {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(6vw, -4vw, 0); }
+}
+
+@keyframes blob-drift-slow {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(-5vw, 5vw, 0); }
+}
+
+.animate-blob {
+  animation: blob-drift 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.animate-blob-slow {
+  animation: blob-drift-slow 38s ease-in-out infinite;
+  will-change: transform;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%      { opacity: 1;    transform: scale(1.25); }
+}
+.animate-pulse-dot {
+  animation: pulse-dot 2.2s ease-in-out infinite;
+}
+
+@keyframes chip-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50%      { transform: translate3d(0, -5px, 0); }
+}
+.animate-float {
+  animation: chip-float 4.5s ease-in-out infinite;
+}
+
+/* RGB strip pulse — CSS instead of SMIL (main thread off) */
+@keyframes rgb-pulse {
+  0%, 100% { opacity: 0.78; }
+  50%      { opacity: 1; }
+}
+.rgb-strip-pulse {
+  animation: rgb-pulse 2.4s ease-in-out infinite;
+}
+
+/* Reveal-on-scroll helper */
+@keyframes fade-up {
+  from { opacity: 0; transform: translate3d(0, 24px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.in-view {
+  animation: fade-up 0.7s ease-out both;
+}
+
+/* Carousel slide fade-in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out both;
+}
+
+/* ============== Performance containers ============== */
+
+/* Cards: isolate their paint so hovering one doesn't reflow the rest */
+.card-contain {
+  contain: layout style paint;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.perspective-card {
+  contain: layout style;
+}
+
+/* ============== Form input ============== */
+
+.input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #0A0A0A;
+  outline: none;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+html.dark .input {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #FAFAFA;
+}
+.input::placeholder { color: rgb(156, 163, 175); }
+html.dark .input::placeholder { color: rgb(107, 114, 128); }
+.input:focus {
+  border-color: rgba(250, 204, 21, 0.6);
+  box-shadow: 0 0 0 3px rgba(250, 204, 21, 0.15);
+}
+
+/* ============== Reduce motion ============== */
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blob,
+  .animate-blob-slow,
+  .animate-pulse-dot,
+  .animate-float,
+  .rgb-strip-pulse,
+  .in-view {
+    animation: none !important;
+  }
+  html { scroll-behavior: auto; }
+}
